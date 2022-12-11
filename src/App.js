@@ -31,14 +31,28 @@ useEffect(()=>{
   getMovieRequest(searchValue);
 }, [searchValue]);
 
+useEffect(()=>{
+  const movieWatchlist = JSON.parse(
+    localStorage.getItem('react-movie-app-watchlist')
+    );
+
+    setAdds(movieWatchlist);
+}, []);
+
+const saveToLocalStorage = (items) => {
+  localStorage.setItem('react-movie-app-watchlist', JSON.stringify(items))
+}
+
 const addMovie = (movie) => {
   const newAddList = [...adds, movie];
   setAdds(newAddList);
+  saveToLocalStorage(newAddList);
 };
 
 const removeMovie = (movie) => {
   const newAddList = adds.filter((add)=> add.imdbID !== movie.imdbID);
   setAdds(newAddList);
+  saveToLocalStorage(newAddList);
 };
 return (
   <div className='container-fluid movie-app'>
